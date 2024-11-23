@@ -1,8 +1,5 @@
 # CODE-SCANNER
 
-```markdown
-# Code Scanner
-
 ![Code Scanner Logo](path/to/logo.png) <!-- Optional: Add a logo image path -->
 
 ## Overview
