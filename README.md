@@ -1,6 +1,6 @@
 # CODE-SCANNER
 
-![Code Scanner Logo](path/to/logo.png) <!-- Optional: Add a logo image path -->
+<i class="fas fa-qrcode logo"></i>
 
 ## Overview
 
