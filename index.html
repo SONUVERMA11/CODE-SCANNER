@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Scanner Pro</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4CAF50;
+            --background-color: #f5f5f5;
+            --card-background: #ffffff;
+            --text-color: #333333;
+            --header-color: #ffffff;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="dark"] {
+            --primary-color: #66bb6a;
+            --background-color: #1a1a1a;
+            --card-background: #2d2d2d;
+            --text-color: #ffffff;
+            --header-color: #333333;
+            --shadow-color: rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background-color: var(--header-color);
+            padding: 1rem;
+            box-shadow: 0 2px 5px var(--shadow-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo {
+            font-size: 24px;
+            color: var(--primary-color);
+        }
+
+        .app-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--text-color);
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            cursor: pointer;
+            font-size: 1.5rem;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: transform 0.3s;
+      
+        }
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 20px;
+            flex-grow: 1;
+        }
+
+        .card {
+            background-color: var(--card-background);
+            padding: 2rem;
+            padding-bottom: 20px;   
+            border-radius: 12px;
+            box-shadow: 0 4px 6px var(--shadow-color);
+        }
+        .card p {
+            margin-bottom: 1rem;
+        }
+
+        .preview-container {
+            width: 100%;
+            max-width: 500px;
+            margin: 20px auto;
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        #imagePreview {
+            width: 100%;
+            max-height: 400px;
+            object-fit: contain;
+            display: none;
+            border-radius: 8px;
+        }
+
+        .button {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 24px;   
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px var(--shadow-color);
+        }
+
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: var(--card-background);
+            min-height: 50px;
+            border: 2px solid var(--primary-color);
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .status {
+            margin-top: 10px;
+            color: var(--text-color);
+            opacity: 0.8;
+        }
+
+        #reader {
+            width: 100%;
+            max-width: 500px;
+            margin: 20px auto;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        footer {
+            background-color: var(--header-color);
+            padding: 1.5rem;
+            margin-top: auto;
+            box-shadow: 0 -2px 5px var(--shadow-color);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .developer-info {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+
+        }
+        .footer-text p {
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: bold;
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        .developer-name   {
+            color: #ff0000 ;
+            text-decoration: none;
+            font-weight: bold
+            transition: color 0.3s;
+        }
+
+        .developer-name:hover {
+            color: #c850c0;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-links a {
+            color: var(--text-color);
+            font-size: 1.5rem;
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        .social-links a:hover {
+            color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .copy-button {
+            background-color: transparent;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .copy-button:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .result-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo-container">
+                <i class="fas fa-qrcode logo"></i>
+                <span class="app-name">CODE SCANNER</span>
+            </div>
+            <button class="theme-toggle" id="themeToggle">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="card">
+            <h1><i class="fas fa-scanner"></i>Advanced Code Scanner</h1>
+            <p>Upload an image containing QR code, barcode, or other supported formats.<br /></p>
+
+            <input type="file" id="fileInput" class="file-input" accept="image/*">
+            <button class="button" onclick="document.getElementById('fileInput').click()">
+                <i class="fas fa-upload"></i> Select Image
+            </button>
+
+            <div class="preview-container">
+                <img id="imagePreview" alt="Preview">
+            </div>
+
+            <div id="reader"></div>
+            <div id="result">
+                <p class="status">No code detected yet. Upload an image to start scanning.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="developer-info">
+              <i class="fas fa-code"></i>
+                <p class="footer-text">
+                   Developed with <span style="color: #ff0000;">❤</span> by 
+                   <a href="https://github.com/SONUVERMA11" class="developer-name" target="_blank">SONU VERMA</a>
+                </p>
+            </div>
+            <div class="social-links">
+                <a href="https://github.com/SONUVERMA11" target="_blank" title="GitHub">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="https://www.linkedin.com/in/sonu-verma-16247a276/" target="_blank" title="LinkedIn">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+                <a href="https://twitter.com/yourusername" target="_blank" title="Twitter">
+                    <i class="fab fa-twitter"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script>
+    <script>
+        // Theme Toggle Functionality
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+        const themeIcon = themeToggle.querySelector('i');
+
+        function toggleTheme() {
+            if (html.getAttribute('data-theme') === 'light') {
+                html.setAttribute('data-theme', 'dark');
+                themeIcon.className = 'fas fa-sun';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                html.setAttribute('data-theme', 'light');
+                themeIcon.className = 'fas fa-moon';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        html.setAttribute('data-theme', savedTheme);
+        themeIcon.className = savedTheme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
+
+        themeToggle.addEventListener('click', toggleTheme);
+
+        // Scanner Functionality
+        const fileInput = document.getElementById('fileInput');
+        const imagePreview = document.getElementById('imagePreview');
+        const result = document.getElementById('result');
+        const html5QrCode = new Html5Qrcode("reader");
+
+        fileInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    imagePreview.src = event.target.result;
+                    imagePreview.style.display = 'block';
+                    scanCode(file);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Content copied to clipboard!');
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+        }
+
+        function scanCode(file) {
+            result.innerHTML = '<p class="status">Scanning...</p>';
+
+            const config = {
+                experimentalFeatures: {
+                    useBarCodeDetectorIfSupported: true
+                }
+            };
+
+            html5QrCode.scanFile(file, true, config)
+                .then(decodedText => {
+                    result.innerHTML = `
+                        <h3>Scan Result:</h3>
+                        <div class="result-content">
+                            <p><strong>Content:</strong> ${decodedText}</p>
+                            <button class="copy-button" onclick="copyToClipboard('${decodedText}')">
+                                <i class="fas fa-copy"></i> Copy
+                            </button>
+                        </div>
+                    `;
+                })
+                .catch(err => {
+                    result.innerHTML = `
+                        <p class="status">No code detected or error occurred. Please try a different image.</p>
+                        <p class="status">Error details: ${err.message || err}</p>
+                    `;
+                });
+        }
+
+        // Clean up on page unload
+        window.addEventListener('beforeunload', function() {
+            html5QrCode.clear();
+        });
+    </script>
+</body>
+</html>
